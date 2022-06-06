@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Recibir parámetros del request HTTP GET - URL</title>
+</head>
+<body>
+    <h2>Recibir parámetros del request HTTP GET - URL</h2>
+    <div th:text="${resultado}"></div>
+    <div th:if="${error}">
+        <br>
+        <p>Error caused by following statements: </p>
+        <p th:text="${error}"></p>
+    </div>
+</body>
+</html>
