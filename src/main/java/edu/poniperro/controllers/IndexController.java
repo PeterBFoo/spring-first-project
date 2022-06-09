@@ -2,6 +2,8 @@ package edu.poniperro.controllers;
 
 import edu.poniperro.domain.Usuario;
 import edu.poniperro.service.UsuarioService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,11 +13,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 
-import static java.util.Arrays.asList;
-
 @Controller
 @RequestMapping("/app")
 public class IndexController {
+
+    @Value("${texto.indexcontroller.perfil.titulo}")
+    private String tituloPerfil;
+
+    @Autowired
+    UsuarioService userService;
 
     @RequestMapping(value = {"/", "", "/index", "/home"}, method = RequestMethod.GET)
     // @GetMapping(value = "/") -> Se puede hacer así con todos los otros tipos de envío
@@ -27,23 +33,19 @@ public class IndexController {
 
     @GetMapping("/perfil")
     public String perfil(Model model) {
-        UsuarioService.perfil(model);
+        userService.perfil(model, tituloPerfil);
         return "perfil";
     }
 
     @GetMapping("/listar")
     public String listar(Model model) {
-        // UsuarioService.listar(model);
+        userService.listar(model);
         return "listar";
     }
 
     @ModelAttribute("usuarios")
     public List<Usuario> poblarUsuarios(){
-        List<Usuario> usuarios = asList(new Usuario("Alejandro", "Guzmán", "aguzman@gmail.com"),
-                new Usuario("Ron", "Wheaslie", "wheaslie@gmail.com"),
-                new Usuario("Ariel", "Aguilar", "ariel@gmail.com"));
-
-        return usuarios;
+        return userService.poblarUsuarios();
     }
 
     // Distintas formas de ponerlo:
